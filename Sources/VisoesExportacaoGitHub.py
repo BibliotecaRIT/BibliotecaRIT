@@ -26,8 +26,26 @@ class VisaoExportacaoGitHub:
                             comentario.id, comentario.mensagem, comentario.data, comentario.relevancia,
                             comentario.loginAutor])
     
+    @classmethod
     def exportacaoIssuesAutor(cls, projeto, autor):
-        pass
+        # Criando o Arquivo
+        f = open((projeto.repositorio+'.csv'), 'w', newline='', encoding='utf-8')
+
+        # Criando o Objeto de Gravação
+        w = csv.writer(f)
+        
+        # Gravando a Linha com o Título das Colunas
+        w.writerow(['NumeroIssue', 'TituloIssue', 'DescricaoIssue', 'CriacaoIssue', 'NumeroComentario',
+                    'Comentario', 'DataComentario', 'RelevanciaTematica', 'AutorComentario'])
+
+        # Gravando as Linhas
+        for topico in projeto.topicos:
+            for comentario in topico.listaComentarios:
+                if(comentario.loginAutor == autor):
+                    w.writerow([topico.number, topico.titulo, topico.descricao, topico.dataCriacao,
+                                comentario.id, comentario.mensagem, comentario.data, comentario.relevancia,
+                                comentario.loginAutor])
     
+    @classmethod
     def exportacaoIssuesData(cls, projeto, data):
         pass
