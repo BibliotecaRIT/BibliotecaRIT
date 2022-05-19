@@ -3,8 +3,7 @@ from Sources.BibliotecaColMinerRTFachada import BibliotecaColMinerRTFachada
 print('-------------------------------------------------------------------------------')
 print('''                               MENU:
 [1] - Processar Dados do GitHub
-[2] - Processar Dados do StackOverflow
-[3] - Sair ''')
+[2] - Sair ''')
 opcao = int(input('Escolha uma Opção: '))
 print('-------------------------------------------------------------------------------')
 print()
@@ -101,7 +100,7 @@ if opcao == 1:
         
         print('-------------------------------------------------------------------------------')
         print()
-        data = input('[4] - Digite a Data que Deseja Extrair os Comentários: ')
+        data = input('[4] - Digite a Data que Deseja Extrair os Comentários no Formato 2022-05-19: ')
         print()
         print('-------------------------------------------------------------------------------')
         

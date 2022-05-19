@@ -41,6 +41,7 @@ class VisaoExportacaoGitHub:
         # Gravando as Linhas
         for topico in projeto.topicos:
             for comentario in topico.listaComentarios:
+                # Filtrando por Autor
                 if(comentario.loginAutor == autor):
                     w.writerow([topico.number, topico.titulo, topico.descricao, topico.dataCriacao,
                                 comentario.id, comentario.mensagem, comentario.data, comentario.relevancia,
@@ -48,4 +49,23 @@ class VisaoExportacaoGitHub:
     
     @classmethod
     def exportacaoIssuesData(cls, projeto, data):
-        pass
+        # Criando o Arquivo
+        f = open((projeto.repositorio+'.csv'), 'w', newline='', encoding='utf-8')
+
+        # Criando o Objeto de Gravação
+        w = csv.writer(f)
+        
+        # Gravando a Linha com o Título das Colunas
+        w.writerow(['NumeroIssue', 'TituloIssue', 'DescricaoIssue', 'CriacaoIssue', 'NumeroComentario',
+                    'Comentario', 'DataComentario', 'RelevanciaTematica', 'AutorComentario'])
+
+        # Gravando as Linhas
+        print(data)
+        for topico in projeto.topicos:
+            for comentario in topico.listaComentarios:
+                # Filtrando por Data
+                print(comentario.data)
+                if(data in comentario.data):
+                    w.writerow([topico.number, topico.titulo, topico.descricao, topico.dataCriacao,
+                                comentario.id, comentario.mensagem, comentario.data, comentario.relevancia,
+                                comentario.loginAutor])
