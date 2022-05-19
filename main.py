@@ -86,7 +86,7 @@ if opcao == 1:
         print('-------------------------------------------------------------------------------')
         
         print('-- Gerando o .csv com os Resultados Obtidos --')
-        BibliotecaColMinerRTFachada.gerarCSVGitHub(projeto, 4)
+        BibliotecaColMinerRTFachada.gerarCSVGitHub(projeto, 4, autor=autor)
         print()
         
     elif(visao == 5):
@@ -106,7 +106,7 @@ if opcao == 1:
         print('-------------------------------------------------------------------------------')
         
         print('-- Gerando o .csv com os Resultados Obtidos --')
-        BibliotecaColMinerRTFachada.gerarCSVGitHub(projeto, 5, data)
+        BibliotecaColMinerRTFachada.gerarCSVGitHub(projeto, 5, data=data)
         print()
         
     else:
