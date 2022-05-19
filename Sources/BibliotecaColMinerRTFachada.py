@@ -1,4 +1,5 @@
 # Importe das APIs de Extração de Dados
+import imp
 from Sources.APIGitHub import APIGitHub
 from Sources.APIStackOverflow import APIStackOverflow
 from stackapi import StackAPI
@@ -8,46 +9,67 @@ from Sources.Projeto import Projeto
 from Sources.Topico import Topico
 from Sources.Comentario import Comentario
 
-# Importa da Classe de Cálculo de Relevância Temática e Exportação em CSV
+# Importa da Classe de Cálculo de Relevância Temática e Exportação
 from Sources.CalculoRelevancia import CalculoRelevancia
+from Sources.VisoesExportacaoGitHub import VisaoExportacaoGitHub
 import csv
 
 class BibliotecaColMinerRTFachada:
     @classmethod
     def processarDadosGitHub(cls, usuario, repositorio, tipoIssue):
         # Requisitando os Dados das Issues do Projeto
-        # A Requisição é feita de Acordo com o Número de Páginas
-        if(tipoIssue == 1):
-            numeroPaginas = APIGitHub.numeroPaginasIssuesAbertas(usuario, repositorio)
-        else:
-            numeroPaginas = APIGitHub.numeroPaginasIssuesFechadas(usuario, repositorio)
-        
+        # A Requisição é feita de Acordo com o Número de Página
+        # Extração dos Dados de Issues Abertas
         topicos = []
 
-        for i in range(1, numeroPaginas+1):
-            if(tipoIssue == 1):
+        if((tipoIssue == 1) or (tipoIssue == 3)):
+            numeroPaginas = APIGitHub.numeroPaginasIssuesAbertas(usuario, repositorio)
+
+            for i in range(1, numeroPaginas+1):
                 dadosIssues = APIGitHub.requisisaoIssuesAbertas(usuario, repositorio, i)
-            else:
-                dadosIssues = APIGitHub.requisisaoIssuesFechadas(usuario, repositorio, i)
+
+                for j in range(len(dadosIssues)):
+                    # Inicializando uma Issue
+                    topico = Topico(dadosIssues[j]['id'], dadosIssues[j]['user']['login'], dadosIssues[j]['created_at'], dadosIssues[j]['closed_at'], dadosIssues[j]['url'], dadosIssues[j]['title'], dadosIssues[j]['body'], dadosIssues[j]['state'], dadosIssues[j]['author_association'], dadosIssues[j]['number'])
+
+                    # Requisitando os Comentários de cada Issue
+                    dadosComentarios = APIGitHub.requisicaoComentarios(usuario, repositorio, dadosIssues[j]['number'])
+                    comentarios = []
+
+                    for k in range(len(dadosComentarios)):
+                        # Inserindo os Dados dos Comentários da Issue
+                        comentario = Comentario(dadosComentarios[k]['id'], dadosIssues[j]['id'], dadosComentarios[k]['user']['login'], dadosComentarios[k]['body'], dadosComentarios[k]['created_at'])
+                        comentarios.append(comentario)
+
+                    # Inserindo Dados da Issue
+                    # Instanciando os Comentários na Issue, e Salvando a Issue na Lista
+                    topico.inserirComentarios(comentarios)
+                    topicos.append(topico)
+        
+        if((tipoIssue == 2) or (tipoIssue == 3)):
+            # Extração dos Dados de Issues Fechadas
+            numeroPaginas = APIGitHub.numeroPaginasIssuesFechadas(usuario, repositorio)
             
-            for j in range(len(dadosIssues)):
-                # Inicializando uma Issue
-                topico = Topico(dadosIssues[j]['id'], dadosIssues[j]['user']['login'], dadosIssues[j]['created_at'], dadosIssues[j]['closed_at'], dadosIssues[j]['url'], dadosIssues[j]['title'], dadosIssues[j]['body'], dadosIssues[j]['state'], dadosIssues[j]['author_association'], dadosIssues[j]['number'])
+            for i in range(1, numeroPaginas+1):
+                dadosIssues = APIGitHub.requisisaoIssuesFechadas(usuario, repositorio, i)
+                
+                for j in range(len(dadosIssues)):
+                    # Inicializando uma Issue
+                    topico = Topico(dadosIssues[j]['id'], dadosIssues[j]['user']['login'], dadosIssues[j]['created_at'], dadosIssues[j]['closed_at'], dadosIssues[j]['url'], dadosIssues[j]['title'], dadosIssues[j]['body'], dadosIssues[j]['state'], dadosIssues[j]['author_association'], dadosIssues[j]['number'])
 
-                # Requisitando os Comentários de cada Issue
-                dadosComentarios = APIGitHub.requisicaoComentarios(usuario, repositorio, dadosIssues[j]['number'])
-                comentarios = []
+                    # Requisitando os Comentários de cada Issue
+                    dadosComentarios = APIGitHub.requisicaoComentarios(usuario, repositorio, dadosIssues[j]['number'])
+                    comentarios = []
 
-                for k in range(len(dadosComentarios)):
-                    # Inserindo os Dados dos Comentários da Issue
-                    comentario = Comentario(dadosComentarios[k]['id'], dadosIssues[j]['id'], dadosComentarios[k]['user']['login'], dadosComentarios[k]['body'], dadosComentarios[k]['created_at'])
-                    comentarios.append(comentario)
+                    for k in range(len(dadosComentarios)):
+                        # Inserindo os Dados dos Comentários da Issue
+                        comentario = Comentario(dadosComentarios[k]['id'], dadosIssues[j]['id'], dadosComentarios[k]['user']['login'], dadosComentarios[k]['body'], dadosComentarios[k]['created_at'])
+                        comentarios.append(comentario)
 
-                # Inserindo Dados da Issue
-                # Instanciando os Comentários na Issue, e Salvando a Issue na Lista
-                topico.inserirComentarios(comentarios)
-                topicos.append(topico)
-                    
+                    # Inserindo Dados da Issue
+                    # Instanciando os Comentários na Issue, e Salvando a Issue na Lista
+                    topico.inserirComentarios(comentarios)
+                    topicos.append(topico)
 
         # Inserindo os Dados da Classe Projeto
         projeto = Projeto(usuario, repositorio, topicos)
@@ -104,23 +126,13 @@ class BibliotecaColMinerRTFachada:
             comentario.inserirRelevanciaTematica(relevancia)
 
     @classmethod
-    def gerarCSVGitHub(cls, projeto):
-        # Criando o Arquivo
-        f = open((projeto.repositorio+'.csv'), 'w', newline='', encoding='utf-8')
-
-        # Criando o Objeto de Gravação
-        w = csv.writer(f)
-        
-        # Gravando a Linha com o Título das Colunas
-        w.writerow(['NumeroIssue', 'TituloIssue', 'DescricaoIssue', 'CriacaoIssue', 'NumeroComentario',
-                    'Comentario', 'DataComentario', 'RelevanciaTematica', 'AutorComentario'])
-
-        # Gravando as Linhas
-        for topico in projeto.topicos:
-            for comentario in topico.listaComentarios:
-                w.writerow([topico.number, topico.titulo, topico.descricao, topico.dataCriacao,
-                            comentario.id, comentario.mensagem, comentario.data, comentario.relevancia,
-                            comentario.loginAutor])
+    def gerarCSVGitHub(cls, projeto, visao, data="0/0/00", autor="0000"):
+        if(visao == 1 or visao == 2 or visao == 3):
+            VisaoExportacaoGitHub.exportacaoIssuesAbertasFechadas(projeto)
+        elif(visao == 4):
+            VisaoExportacaoGitHub.exportacaoIssuesAutor(projeto, autor)
+        elif(visao == 5):
+            VisaoExportacaoGitHub.exportacaoIssuesData(projeto, data)
     
     @classmethod
     def gerarCSVStackOverflow(cls, topico):

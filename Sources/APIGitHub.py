@@ -1,7 +1,7 @@
 import requests
 
 class APIGitHub:
-    token = "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"
+    token = "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"
     headers = {'Authorization': 'token ' + token}
 
     @classmethod
