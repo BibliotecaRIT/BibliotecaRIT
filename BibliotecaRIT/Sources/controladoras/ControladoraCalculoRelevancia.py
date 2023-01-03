@@ -1,7 +1,7 @@
 from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 
-class CalculoRelevancia:
+class ControladoraCalculoRelevancia:
     @classmethod
     def similaridade(cls, texto1, texto2):
         # Gerando o Vetor como um Ngrama
@@ -25,9 +25,9 @@ class CalculoRelevancia:
     @classmethod
     def relevanciaTematica(cls, comentario, comentariosAnteriores, issue):
         # Calculando a Similaridade do Comentário com a Issue
-        SCI = CalculoRelevancia.similaridade(issue, comentario)
+        SCI = ControladoraCalculoRelevancia.similaridade(issue, comentario)
         
-        # Calculando a Similaridade do Comentário com a Disucssão
-        SCD = CalculoRelevancia.similaridade((issue + comentariosAnteriores), comentario)
+        # Calculando a Similaridade do Comentário com a discussão
+        SCD = ControladoraCalculoRelevancia.similaridade((issue + comentariosAnteriores), comentario)
         
         return ((SCI+SCD)/2)
