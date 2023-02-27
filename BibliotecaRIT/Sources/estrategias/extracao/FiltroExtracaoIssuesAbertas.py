@@ -1,4 +1,4 @@
-from BibliotecaRIT.Sources.interfaces.FiltroExtracaoStrategy import FiltroExtracaoStrategy
+from BibliotecaRIT.Sources.estrategias.extracao.FiltroExtracaoStrategy import FiltroExtracaoStrategy
 
 
 class FiltroExtracaoIssuesAbertas(FiltroExtracaoStrategy):
