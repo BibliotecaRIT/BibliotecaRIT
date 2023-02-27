@@ -4,7 +4,7 @@ with open("README.md", "r",encoding='utf-8') as fh:
 
 setup(
     name='Biblioteca RIT',
-    version='1.0.0',
+    version='1.0.7',
     url='https://github.com/BibliotecaRIT/BibliotecaRIT',
     license='MIT License',
     author='NuPESSC',
@@ -15,7 +15,7 @@ setup(
     packages=find_packages(),
     install_requires=["numpy", "sklearn"],
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ]
