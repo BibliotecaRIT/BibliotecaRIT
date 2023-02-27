@@ -1,8 +1,4 @@
-import inspect
-import os
 import requests
-import numpy as np
-
 
 class Requisicao:
     _tokens = []
