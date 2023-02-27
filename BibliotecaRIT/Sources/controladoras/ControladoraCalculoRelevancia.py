@@ -25,9 +25,9 @@ class ControladoraCalculoRelevancia:
     @classmethod
     def relevanciaTematica(cls, comentario, comentariosAnteriores, issue):
         # Calculando a Similaridade do Comentário com a Issue
-        SCI = ControladoraCalculoRelevancia.similaridade(issue, comentario)
+        SCI = cls.similaridade(issue, comentario)
         
         # Calculando a Similaridade do Comentário com a discussão
-        SCD = ControladoraCalculoRelevancia.similaridade((issue + comentariosAnteriores), comentario)
+        SCD = cls.similaridade((issue + comentariosAnteriores), comentario)
         
         return ((SCI+SCD)/2)
