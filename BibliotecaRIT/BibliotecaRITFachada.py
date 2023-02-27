@@ -4,55 +4,51 @@ from BibliotecaRIT.Sources.controladoras.ControladoraExportacaoDados import Cont
 from BibliotecaRIT.Sources.controladoras.ControladoraExtracaoDados import ControladoraExtracaoDados
 from BibliotecaRIT.Sources.estrategias.exportacao.VisaoRelevanciaTematicaPorData import VisaoRelevanciaTematicaPorData
 from BibliotecaRIT.Sources.estrategias.exportacao.VisaoRelevanciaTematicaPorAutor import VisaoRelevanciaTematicaPorAutor
-from BibliotecaRIT.Sources.estrategias.extracao.FiltroExtracaoIssuesAbertasFechadas import FiltroExtracaoIssuesAbertasFechadas
-from BibliotecaRIT.Sources.estrategias.extracao.FiltroExtracaoIssuesFechadas import FiltroExtracaoIssuesFechadas
+
 
 class BibliotecaRITFachada:
     def __init__(self, tokens=[]):
         Requisicao.init_tokens(tokens=tokens)
 
     @classmethod
-    def calcularRelevanciaTematicaGitHub(cls,usuario, repositorio, visao, arg=""):
+    def calcularRelevanciaTematicaGitHub(cls,usuario, repositorio, visao=3, arg="", pagInicial=1):
         tipoIssue = visao if visao < 4 else 3
-        print('-- Processando Dados das Issues do Repositório --')
-        projeto = cls.__processarDadosGitHub(usuario,repositorio,tipoIssue)
-        print()
-        print('-- Processando o Cálculo da Relevância Temática dos Comentários de Cada Issue --')
-        cls.__calcularRelevanciaTematicaComentariosGitHub(projeto)
-        print()
+        ControladoraExtracaoDados.setFiltroExtracaoPorTipoIssue(tipoIssue)
+        qtdPaginas = ControladoraExtracaoDados.numeroPaginas(usuario,repositorio)
+        for i in range(pagInicial,qtdPaginas+1):
+            print(f'-- Extraindo os dados da página {i}/{qtdPaginas} do repositório {repositorio} --')
+            projeto = ControladoraExtracaoDados.requisicaoIssuesPorPagina(usuario,repositorio,i)
+            print()
+           
+            print(f'-- Calculando a Relevância Temática dos Comentários da página {i}/{qtdPaginas} do repositório {repositorio} --')
+            cls.__calcularRelevanciaTematicaComentariosGitHub(projeto)
+            print()
+            
+            print(f'-- Gerando o arquivo .csv com da página {i}/{qtdPaginas} do repositório {repositorio} --')
+            number = cls.__gerarCSVGitHub(projeto, visao, i, arg)
+            
+            if number != -1:
+                print(f"Número da última issue exportada da página {i} - {number}.")
+            else:
+                print(f"issues dessa página não possuem comentários.")
 
-        print('-- Gerando o .csv com os Resultados Obtidos --')
-        cls.__gerarCSVGitHub(projeto, visao, arg)
-        print()
+            print()
 
-    @staticmethod
-    def __processarDadosGitHub(usuario, repositorio, tipoIssue):
-        controladoraExtracao = ControladoraExtracaoDados
-        if tipoIssue == 2:
-            controladoraExtracao.setFiltroExtracaoStrategy(filtroExtracaoStrategy=FiltroExtracaoIssuesFechadas)
-        elif tipoIssue == 3:
-            controladoraExtracao.setFiltroExtracaoStrategy(filtroExtracaoStrategy=FiltroExtracaoIssuesAbertasFechadas)
-        return controladoraExtracao.requisicaoIssues(usuario,repositorio)
-    
     @staticmethod
     def __calcularRelevanciaTematicaComentariosGitHub(projeto):
         comentariosAnteriores = ''
-        contador=1
         for topico in projeto.topicos:
             for comentario in topico.listaComentarios:
                 relevancia = ControladoraCalculoRelevancia.relevanciaTematica(comentario.mensagem, comentariosAnteriores, (str(topico.titulo) + str(topico.descricao)))
                 comentariosAnteriores += comentario.mensagem
                 comentario.inserirRelevanciaTematica(relevancia)
-            print(f"Cálculo da relevância temática - Tópico {contador}/{len(projeto.topicos)} finalizado.")
-            contador+=1    
     
     @staticmethod
-    def __gerarCSVGitHub (projeto, visao,arg=""):
-        controladoraExportacao = ControladoraExportacaoDados
+    def __gerarCSVGitHub(projeto, visao,numPagina, arg ):
         if(visao == 4):
-            controladoraExportacao.setVisaoStrategy(visao=VisaoRelevanciaTematicaPorAutor)
+            ControladoraExportacaoDados.setVisaoStrategy(visao=VisaoRelevanciaTematicaPorAutor)
         elif(visao == 5):
-            controladoraExportacao.setVisaoStrategy(visao=VisaoRelevanciaTematicaPorData)
-        controladoraExportacao.gerarCSV(projeto,arg)
+            ControladoraExportacaoDados.setVisaoStrategy(visao=VisaoRelevanciaTematicaPorData)
+        return ControladoraExportacaoDados.gerarCSV(projeto,visao,numPagina,arg)
     
     
