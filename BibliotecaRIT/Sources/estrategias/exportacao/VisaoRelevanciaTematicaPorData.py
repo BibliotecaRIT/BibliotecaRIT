@@ -1,4 +1,4 @@
-from BibliotecaRIT.Sources.estrategias.exportacao.FiltroExportacaoStrategy import VisaoStrategy
+from BibliotecaRIT.Sources.estrategias.exportacao.VisaoStrategy import VisaoStrategy
 
 class VisaoRelevanciaTematicaPorData(VisaoStrategy):
 

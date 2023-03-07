@@ -1,7 +1,7 @@
 import csv
 from BibliotecaRIT.Sources.entidades.Projeto import Projeto
 from BibliotecaRIT.Sources.estrategias.exportacao.VisaoRelevanciaTematicaPorStatus import VisaoRelevanciaTematicaPorStatus
-from BibliotecaRIT.Sources.estrategias.exportacao.FiltroExportacaoStrategy import VisaoStrategy
+from BibliotecaRIT.Sources.estrategias.exportacao.VisaoStrategy import VisaoStrategy
 
 
 class ControladoraExportacaoDados:
