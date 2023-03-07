@@ -18,20 +18,13 @@ class BibliotecaRITFachada:
         for i in range(pagInicial,qtdPaginas+1):
             print(f'-- Extraindo os dados da página {i}/{qtdPaginas} do repositório {repositorio} --')
             projeto = ControladoraExtracaoDados.requisicaoIssuesPorPagina(usuario,repositorio,i)
-            print()
-           
+
             print(f'-- Calculando a Relevância Temática dos Comentários da página {i}/{qtdPaginas} do repositório {repositorio} --')
             cls.__calcularRelevanciaTematicaComentariosGitHub(projeto)
-            print()
-            
-            print(f'-- Gerando o arquivo .csv com da página {i}/{qtdPaginas} do repositório {repositorio} --')
-            number = cls.__gerarCSVGitHub(projeto, visao, i, arg)
-            
-            if number != -1:
-                print(f"Número da última issue exportada da página {i} - {number}.")
-            else:
-                print(f"issues dessa página não possuem comentários.")
-
+     
+            print(f'-- Exportando dados da página {i}/{qtdPaginas} do repositório {repositorio} --')
+            cls.__gerarCSVGitHub(projeto, visao, i, arg)
+            print('\033[92m' + f'Página {i}/{qtdPaginas} do repositório {repositorio} finalizada' + '\033[0m')
             print()
 
     @staticmethod
