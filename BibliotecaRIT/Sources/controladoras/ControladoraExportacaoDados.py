@@ -21,4 +21,4 @@ class ControladoraExportacaoDados:
         if numPagina == 1:
             csvFile.writerow(['NumeroIssue', 'TituloIssue', 'DescricaoIssue', 'CriacaoIssue', 'NumeroComentario',
                         'Comentario', 'DataComentario', 'RelevanciaTematica', 'AutorComentario'])
-        return cls._visao.exportarDadosGitHub(projeto,csvFile,arg)
+        cls._visao.exportarDadosGitHub(projeto,csvFile,arg)
