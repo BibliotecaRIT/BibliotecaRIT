@@ -1,7 +1,6 @@
 class Topico:
-    def __init__(self, dataCriacao, dataFechamento, titulo, descricao, number=0):
+    def __init__(self, dataCriacao, titulo, descricao, number=0):
         self._dataCriacao = dataCriacao
-        self.dataFechamento = dataFechamento
         self._number = number
         self._titulo = titulo
         self._descricao = descricao
@@ -13,10 +12,6 @@ class Topico:
     @property
     def number(self):
         return self._number
-    
-    @property
-    def id(self):
-        return self._id
     
     @property
     def titulo(self):
