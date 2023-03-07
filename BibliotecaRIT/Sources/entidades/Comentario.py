@@ -28,7 +28,3 @@ class Comentario:
     @property
     def id(self):
         return self._id
-    
-    @property
-    def reputacao(self):
-        return self._reputacao
