@@ -1,15 +1,10 @@
 class Topico:
-    def __init__(self,  id, loginAutor, dataCriacao, dataFechamento, url, titulo, descricao, status, loginUsuario, number=0):
-        self._id = id
-        self.loginAutor = loginAutor
-        self.loginUsuarioAtribuido = loginUsuario
+    def __init__(self, dataCriacao, dataFechamento, titulo, descricao, number=0):
         self._dataCriacao = dataCriacao
         self.dataFechamento = dataFechamento
-        self.url = url
         self._number = number
         self._titulo = titulo
         self._descricao = descricao
-        self.status = status
         self._listaComentarios = []
         
     def inserirComentarios(self, listaComentarios):

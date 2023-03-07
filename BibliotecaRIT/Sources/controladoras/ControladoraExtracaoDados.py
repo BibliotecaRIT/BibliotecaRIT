@@ -37,7 +37,7 @@ class ControladoraExtracaoDados:
             dadosIssues = response
             for j in range(len(dadosIssues)):
                 # Inicializando uma Issue
-                topico = Topico(dadosIssues[j]['id'], dadosIssues[j]['user']['login'], dadosIssues[j]['created_at'], dadosIssues[j]['closed_at'], dadosIssues[j]['url'], dadosIssues[j]['title'], dadosIssues[j]['body'], dadosIssues[j]['state'], dadosIssues[j]['author_association'], dadosIssues[j]['number'])
+                topico = Topico( dadosIssues[j]['created_at'], dadosIssues[j]['closed_at'], dadosIssues[j]['title'], dadosIssues[j]['body'], dadosIssues[j]['number'])
 
                 # Requisitando os Comentários de cada Issue
                 dadosComentarios = cls.__requisicaoComentariosPorIssue(usuario, repositorio, dadosIssues[j]['number'])
@@ -45,7 +45,7 @@ class ControladoraExtracaoDados:
 
                 for k in range(len(dadosComentarios)):
                     # Inserindo os Dados dos Comentários da Issue
-                    comentario = Comentario(dadosComentarios[k]['id'], dadosIssues[j]['id'], dadosComentarios[k]['user']['login'], dadosComentarios[k]['body'], dadosComentarios[k]['created_at'])
+                    comentario = Comentario(dadosComentarios[k]['id'], dadosComentarios[k]['user']['login'], dadosComentarios[k]['body'], dadosComentarios[k]['created_at'])
                     comentarios.append(comentario)
 
                 # Inserindo Dados da Issue

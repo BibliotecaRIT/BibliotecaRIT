@@ -1,12 +1,10 @@
 class Comentario:
-    def __init__(self, id, idTopico, loginAutor, mensagem, data, reputacao=0):
+    def __init__(self, id, loginAutor, mensagem, data):
         self._id = id
-        self.idTopico = idTopico
         self._loginAutor = loginAutor
         self._mensagem = mensagem
         self._data = data
         self._relevancia = 0
-        self._reputacao = reputacao
         
     def inserirRelevanciaTematica(self, relevancia):
         self._relevancia = relevancia
