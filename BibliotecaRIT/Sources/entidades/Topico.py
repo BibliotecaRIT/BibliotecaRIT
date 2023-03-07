@@ -1,8 +1,7 @@
 class Topico:
-    def __init__(self,  id, loginAutor, dataCriacao, dataFechamento, url, titulo, descricao, status, loginUsuario="stackOverflow", number=0):
+    def __init__(self,  id, loginAutor, dataCriacao, dataFechamento, url, titulo, descricao, status, number=0):
         self._id = id
         self.loginAutor = loginAutor
-        self.loginUsuarioAtribuido = loginUsuario
         self._dataCriacao = dataCriacao
         self.dataFechamento = dataFechamento
         self.url = url
