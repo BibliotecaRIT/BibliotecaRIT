@@ -37,7 +37,7 @@ class ControladoraExtracaoDados:
             dadosIssues = response
             for j in range(len(dadosIssues)):
                 # Inicializando uma Issue
-                topico = Topico( dadosIssues[j]['created_at'], dadosIssues[j]['closed_at'], dadosIssues[j]['title'], dadosIssues[j]['body'], dadosIssues[j]['number'])
+                topico = Topico( dadosIssues[j]['created_at'], dadosIssues[j]['title'], dadosIssues[j]['body'], dadosIssues[j]['number'])
 
                 # Requisitando os Comentários de cada Issue
                 dadosComentarios = cls.__requisicaoComentariosPorIssue(usuario, repositorio, dadosIssues[j]['number'])
