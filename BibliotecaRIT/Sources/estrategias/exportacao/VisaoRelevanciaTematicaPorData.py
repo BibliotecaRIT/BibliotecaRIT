@@ -4,8 +4,7 @@ class VisaoRelevanciaTematicaPorData(VisaoStrategy):
 
     @staticmethod
     def exportarDadosGitHub(projeto, csvFile, arg):
-        for i in range(len(projeto.topicos)):
-            topico=projeto.topicos[i]
+        for topico in projeto.topicos:
             if len(topico.listaComentarios)!=0:
                 for comentario in topico.listaComentarios:
                 # Filtrando por Data

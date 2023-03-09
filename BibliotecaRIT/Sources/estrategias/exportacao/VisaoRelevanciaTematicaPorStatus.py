@@ -5,8 +5,7 @@ class VisaoRelevanciaTematicaPorStatus(VisaoStrategy):
    @staticmethod
    def exportarDadosGitHub(projeto, csvFile, arg):
     # Gravando as Linhas
-    for i in range(len(projeto.topicos)):
-        topico=projeto.topicos[i]
+    for topico in projeto.topicos:
         if len(topico.listaComentarios)!=0:
             for comentario in topico.listaComentarios:                            
                 csvFile.writerow([topico.number, topico.titulo, topico.descricao, topico.dataCriacao,
