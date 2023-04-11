@@ -4,7 +4,7 @@ with open("README.md", "r",encoding='utf-8') as fh:
 
 setup(
     name='Biblioteca RIT',
-    version='2.0.0',
+    version='2.0.2',
     url='https://github.com/BibliotecaRIT/BibliotecaRIT',
     license='MIT License',
     author='NuPESSC',
