@@ -15,12 +15,12 @@ Para instalar a biblioteca execute o comando:
 No linux:
 
 ``` 
-pip3  install Biblioteca-RIT
+pip3 install Biblioteca-RIT
 ```
 
 No Windows:
 ``` 
-pip  install Biblioteca-RIT
+pip install Biblioteca-RIT
 ```
 ## Uso
 1) Para que a biblioteca possa fazer as requisições no GitHub é necessário criar um [_personal access token_](https://docs.github.com/pt/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
