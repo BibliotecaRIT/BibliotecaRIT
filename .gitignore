@@ -3,3 +3,5 @@ build/
 Biblioteca_RIT.egg-info/
 dist/
 teste.py
+publish_pypi.sh
+publish_pypitest.sh
