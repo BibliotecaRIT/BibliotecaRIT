@@ -97,5 +97,4 @@ No exemplo a seguir, ilustra-se como utilizar a biblioteca RIT para calcular a r
 6 rit.calcularRelevanciaTematicaGitHub(usuario="mockturtl",repositorio="dotenv",visao=5,arg="2021-07-15")
 ``` 
 ### Saída
-
-Ao executar algum dos exemplos acima, é gerado um arquivo CSV com o nome _dotenv-x.csv_, onde x é número da visão que foi escolhida.
+Ao executar algum dos exemplos acima, são gerados dois arquivos CSVs com os nomes _dotenv-comentarios-x.csv_ e _dotenv-issues-x_, onde x é número da visão que foi escolhida. Estes arquivos contém, respectivamente, os dados acerca dos comentários e das _issues_ do repositório dotenv.
