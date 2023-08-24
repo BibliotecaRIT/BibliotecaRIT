@@ -1,15 +1,12 @@
+from BibliotecaRIT.Sources.entidades.Comentario import Comentario
+from BibliotecaRIT.Sources.entidades.Topico import Topico
 from BibliotecaRIT.Sources.estrategias.exportacao.VisaoStrategy import VisaoStrategy
+
 
 class VisaoRelevanciaTematicaPorData(VisaoStrategy):
 
     @staticmethod
-    def exportarDadosGitHub(projeto, csvFile, arg):
-        for topico in projeto.topicos:
-            if len(topico.listaComentarios)!=0:
-                for comentario in topico.listaComentarios:
-                # Filtrando por Data
-                    if(arg in comentario.data):
-                        csvFile.writerow([topico.number, topico.titulo, topico.descricao, topico.dataCriacao,
-                                    comentario.id, comentario.mensagem, comentario.data, comentario.relevancia,
-                                    comentario.loginAutor])
- 
+    def exportarComentariosGitHub(idTopico: int, comentario: Comentario, csvFile, arg: str):
+        if(arg in comentario.data):
+            csvFile.writerow([idTopico,comentario.id, comentario.mensagem, comentario.data,
+                               comentario.relevancia,comentario.loginAutor,comentario.tagsToString()])
